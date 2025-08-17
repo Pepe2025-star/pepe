@@ -10,6 +10,7 @@ interface AdminPanelProps {
 
 export function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const { state, logout, dispatch, addNovela, updateNovela, deleteNovela, addDeliveryZone, updateDeliveryZone, deleteDeliveryZone, exportConfig, importConfig, resetToDefaults, showNotification, exportSystemFiles } = useAdmin();
+  const currentConfig = state.config;
   const [activeTab, setActiveTab] = useState<'pricing' | 'novelas' | 'delivery' | 'backup'>('pricing');
   const [showPassword, setShowPassword] = useState(false);
   const [notifications, setNotifications] = useState<Array<{ id: number; message: string; type: 'success' | 'info' | 'warning' | 'error' }>>([]);
