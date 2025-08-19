@@ -90,6 +90,17 @@ export function Cart() {
             </Link>
           </div>
         </div>
+        
+        {/* Admin Panel Access */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/admin"
+            className="inline-flex items-center text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
+          >
+            <span className="mr-2">⚙️</span>
+            Panel de Control
+          </Link>
+        </div>
       </div>
     );
   }
