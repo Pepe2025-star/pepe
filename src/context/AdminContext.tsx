@@ -90,7 +90,7 @@ interface AdminContextType {
   getSystemFiles: () => SystemFile[];
 }
 
-const AdminContext = createContext<AdminContextType | undefined>(undefined);
+export const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 const initialState: AdminState = {
   isAuthenticated: false,
