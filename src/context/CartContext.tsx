@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { Toast } from '../components/Toast';
-import { useAdmin } from './AdminContext';
+import { useAdmin, AdminContext } from './AdminContext';
 import type { CartItem } from '../types/movie';
 
 interface SeriesCartItem extends CartItem {
@@ -90,7 +90,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [], total: 0 });
-  const adminContext = React.useContext(require('./AdminContext').AdminContext);
+  const adminContext = React.useContext(AdminContext);
   const [toast, setToast] = React.useState<{
     message: string;
     type: 'success' | 'error';

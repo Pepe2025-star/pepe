@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Download, MessageCircle, Phone, BookOpen, Info, Check, DollarSign, CreditCard, Calculator, Search, Filter, SortAsc, SortDesc } from 'lucide-react';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin, AdminContext } from '../context/AdminContext';
 
 interface Novela {
   id: number;
@@ -18,7 +18,7 @@ interface NovelasModalProps {
 }
 
 export function NovelasModal({ isOpen, onClose }: NovelasModalProps) {
-  const adminContext = React.useContext(require('../context/AdminContext').AdminContext);
+  const adminContext = React.useContext(AdminContext);
   const [selectedNovelas, setSelectedNovelas] = useState<number[]>([]);
   const [novelasWithPayment, setNovelasWithPayment] = useState<Novela[]>([]);
   const [showContactOptions, setShowContactOptions] = useState(false);

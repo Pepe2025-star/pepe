@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, User, MapPin, Phone, Copy, Check, MessageCircle, Calculator, DollarSign, CreditCard } from 'lucide-react';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin, AdminContext } from '../context/AdminContext';
 
 export interface CustomerInfo {
   fullName: string;
@@ -58,7 +58,7 @@ const DELIVERY_ZONES = {
 };
 
 export function CheckoutModal({ isOpen, onClose, onCheckout, items, total }: CheckoutModalProps) {
-  const adminContext = React.useContext(require('../context/AdminContext').AdminContext);
+  const adminContext = React.useContext(AdminContext);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     fullName: '',
     phone: '',

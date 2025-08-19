@@ -1,6 +1,6 @@
 import React from 'react';
 import { DollarSign, Tv, Film, Star, CreditCard } from 'lucide-react';
-import { useAdmin } from '../context/AdminContext';
+import { useAdmin, AdminContext } from '../context/AdminContext';
 
 interface PriceCardProps {
   type: 'movie' | 'tv';
@@ -10,7 +10,7 @@ interface PriceCardProps {
 }
 
 export function PriceCard({ type, selectedSeasons = [], episodeCount = 0, isAnime = false }: PriceCardProps) {
-  const adminContext = React.useContext(require('../context/AdminContext').AdminContext);
+  const adminContext = React.useContext(AdminContext);
   
   // Get prices from admin context if available
   const moviePrice = adminContext?.state?.prices?.moviePrice || 80;
