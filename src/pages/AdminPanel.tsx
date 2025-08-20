@@ -161,7 +161,8 @@ export function AdminPanel() {
     { id: 'novels', label: 'Gestión de Novelas', icon: BookOpen },
     { id: 'notifications', label: 'Notificaciones', icon: Bell },
     { id: 'files', label: 'Archivos del Sistema', icon: FileText },
-    { id: 'backup', label: 'Sistema Backup', icon: Database }
+    { id: 'backup', label: 'Sistema Backup', icon: Database },
+    { id: 'logout', label: 'Cerrar Sesión', icon: X }
   ];
 
   const renderDashboard = () => (
