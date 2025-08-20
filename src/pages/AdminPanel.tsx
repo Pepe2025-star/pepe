@@ -826,9 +826,9 @@ export function AdminPanel() {
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               {sidebarItems.find(item => item.id === activeSection)?.label}
-            </h2>
-            <p className="text-gray-600">
-              Gestiona y controla todos los aspectos de la aplicación TV a la Carta
+              Exporta todos los archivos del código fuente del sistema manteniendo 
+              la estructura de carpetas original. Incluye todas las configuraciones 
+              y cambios realizados en el panel de control.
             </p>
           </div>
 
@@ -841,18 +841,18 @@ export function AdminPanel() {
         <div className="fixed top-4 right-4 z-50">
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-4 max-w-sm">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-gray-900 flex items-center">
+              Exportar Archivos del Sistema
                 <Bell className="h-4 w-4 mr-2 text-yellow-600" />
                 Última Actividad
               </h4>
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+              <h5 className="font-semibold text-blue-900 mb-2">Contenido de la Exportación:</h5>
                 {state.notifications.length}
-              </span>
-            </div>
-            <div className="text-sm text-gray-600">
-              {state.notifications[0]?.title}
-            </div>
-            <div className="text-xs text-gray-500 mt-1">
+                <li>• Archivos de código fuente del sistema</li>
+                <li>• Estructura de carpetas mantenida</li>
+                <li>• Configuraciones actualizadas</li>
+                <li>• Cambios del panel de control</li>
+                <li>• Archivo comprimido ZIP</li>
+                <li>• Documentación incluida</li>
               {state.notifications[0] && new Date(state.notifications[0].timestamp).toLocaleString()}
             </div>
           </div>
