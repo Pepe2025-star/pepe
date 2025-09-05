@@ -373,6 +373,7 @@ export function NovelasModal({ isOpen, onClose }: NovelasModalProps) {
     }
     if (transferTotal > 0) {
       message += `• Transferencia: $${transferTotal.toLocaleString()} CUP (${transferNovelas.length} novelas)\n`;
+      message += `• Recargo aplicado: ${transferFeePercentage}% sobre base de transferencia\n`;
     }
     message += `• TOTAL A PAGAR: $${grandTotal.toLocaleString()} CUP\n\n`;
     message += `📱 Enviado desde TV a la Carta\n`;

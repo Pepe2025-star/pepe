@@ -249,12 +249,16 @@ export function CheckoutModal({ isOpen, onClose, onCheckout, items, total }: Che
     try {
       const { orderId } = generateOrderText();
       const { cashTotal, transferTotal } = calculateTotals();
-      const transferFee = transferTotal - items.filter(item => item.paymentType === 'transfer').reduce((sum, item) => {
+      
+      // Calcular el recargo de transferencia correctamente usando los precios actuales
+      const transferBaseAmount = items.filter(item => item.paymentType === 'transfer').reduce((sum, item) => {
         const moviePrice = adminContext?.state?.prices?.moviePrice || 80;
         const seriesPrice = adminContext?.state?.prices?.seriesPrice || 300;
         const basePrice = item.type === 'movie' ? moviePrice : (item.selectedSeasons?.length || 1) * seriesPrice;
         return sum + basePrice;
       }, 0);
+      
+      const transferFee = Math.round(transferBaseAmount * (transferFeePercentage / 100));
 
       const orderData: OrderData = {
         orderId,

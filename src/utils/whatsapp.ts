@@ -1,6 +1,7 @@
 import { OrderData, CustomerInfo } from '../components/CheckoutModal';
+import { AdminContext } from '../context/AdminContext';
 
-export function sendOrderToWhatsApp(orderData: OrderData): void {
+export function sendOrderToWhatsApp(orderData: OrderData, adminContext?: any): void {
   const { 
     orderId, 
     customerInfo, 
@@ -14,6 +15,11 @@ export function sendOrderToWhatsApp(orderData: OrderData): void {
     transferTotal = 0
   } = orderData;
 
+  // Obtener el porcentaje actual del contexto de administración
+  const transferFeePercentage = adminContext?.state?.prices?.transferFeePercentage || 10;
+  const moviePrice = adminContext?.state?.prices?.moviePrice || 80;
+  const seriesPrice = adminContext?.state?.prices?.seriesPrice || 300;
+
   // Formatear lista de productos
   const itemsList = items
     .map(item => {
@@ -21,9 +27,6 @@ export function sendOrderToWhatsApp(orderData: OrderData): void {
         ? `\n  📺 Temporadas: ${item.selectedSeasons.sort((a, b) => a - b).join(', ')}` 
         : '';
       const itemType = item.type === 'movie' ? 'Película' : 'Serie';
-      const moviePrice = 80; // This should be dynamic in real implementation
-      const seriesPrice = 300; // This should be dynamic in real implementation
-      const transferFeePercentage = 10; // This should be dynamic in real implementation
       const basePrice = item.type === 'movie' ? moviePrice : (item.selectedSeasons?.length || 1) * seriesPrice;
       const finalPrice = item.paymentType === 'transfer' ? Math.round(basePrice * (1 + transferFeePercentage / 100)) : basePrice;
       const paymentTypeText = item.paymentType === 'transfer' ? `Transferencia (+${transferFeePercentage}%)` : 'Efectivo';

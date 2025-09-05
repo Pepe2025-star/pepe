@@ -17,7 +17,19 @@ export function Cart() {
     // Calculate totals
     const totalsByPaymentType = calculateTotalByPaymentType();
     const subtotal = totalsByPaymentType.cash + totalsByPaymentType.transfer;
-    const transferFee = 0;
+    
+    // Calcular el recargo de transferencia correctamente
+    const transferFeePercentage = adminContext?.state?.prices?.transferFeePercentage || 10;
+    const transferBaseAmount = state.items
+      .filter(item => item.paymentType === 'transfer')
+      .reduce((sum, item) => {
+        const moviePrice = adminContext?.state?.prices?.moviePrice || 80;
+        const seriesPrice = adminContext?.state?.prices?.seriesPrice || 300;
+        const basePrice = item.type === 'movie' ? moviePrice : (item.selectedSeasons?.length || 1) * seriesPrice;
+        return sum + basePrice;
+      }, 0);
+    
+    const transferFee = Math.round(transferBaseAmount * (transferFeePercentage / 100));
     const total = subtotal + orderData.deliveryCost;
     
     // Complete the order data with cart information
@@ -31,7 +43,7 @@ export function Cart() {
       transferTotal: totalsByPaymentType.transfer
     };
     
-    sendOrderToWhatsApp(completeOrderData);
+    sendOrderToWhatsApp(completeOrderData, adminContext);
     setShowCheckoutModal(false);
   };
 

@@ -527,7 +527,7 @@ export function TVDetail() {
               {/* Mensaje informativo sobre selección automática */}
               {hasMultipleSeasons && selectedSeasons.length === 0 && !inCart && (
                 <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm text-blue-700 text-center">
+                    Esta serie tiene {tvShow.number_of_episodes} episodios. Hasta 50 episodios se contempla como una temporada (${seriesPrice.toLocaleString()} CUP). 
                     ℹ️ Se agregará la primera temporada por defecto. Puedes seleccionar más temporadas arriba.
                   </p>
                 </div>
