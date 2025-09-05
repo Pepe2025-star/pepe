@@ -2,9 +2,29 @@ import React, { useState } from 'react';
 import { X, User, MapPin, Phone, Copy, Check, MessageCircle, Calculator, DollarSign, CreditCard } from 'lucide-react';
 import { AdminContext } from '../context/AdminContext';
 
-// Base delivery zones with default option
-const BASE_DELIVERY_ZONES = {
-  'Por favor seleccionar su Barrio/Zona': 0,
+// Listen for admin state changes
+const useAdminSync = () => {
+  const [syncTimestamp, setSyncTimestamp] = React.useState(Date.now());
+  
+  React.useEffect(() => {
+    const handleAdminChange = (event: CustomEvent) => {
+      setSyncTimestamp(Date.now());
+    };
+    
+    const handleFullSync = (event: CustomEvent) => {
+      setSyncTimestamp(Date.now());
+    };
+    
+    window.addEventListener('admin_state_change', handleAdminChange as EventListener);
+    window.addEventListener('admin_full_sync', handleFullSync as EventListener);
+    
+    return () => {
+      window.removeEventListener('admin_state_change', handleAdminChange as EventListener);
+      window.removeEventListener('admin_full_sync', handleFullSync as EventListener);
+    };
+  }, []);
+  
+  return syncTimestamp;
 };
 
 export interface CustomerInfo {
@@ -34,9 +54,36 @@ interface CheckoutModalProps {
   total: number;
 }
 
+// Base delivery zones - these will be combined with admin zones
+const BASE_DELIVERY_ZONES = {
+  'Por favor seleccionar su Barrio/Zona': 0,
+  'Santiago de Cuba > Santiago de Cuba > Nuevo Vista Alegre': 100,
+  'Santiago de Cuba > Santiago de Cuba > Vista Alegre': 300,
+  'Santiago de Cuba > Santiago de Cuba > Reparto Sueño': 250,
+  'Santiago de Cuba > Santiago de Cuba > San Pedrito': 150,
+  'Santiago de Cuba > Santiago de Cuba > Altamira': 300,
+  'Santiago de Cuba > Santiago de Cuba > Micro 7, 8 , 9': 150,
+  'Santiago de Cuba > Santiago de Cuba > Alameda': 150,
+  'Santiago de Cuba > Santiago de Cuba > El Caney': 800,
+  'Santiago de Cuba > Santiago de Cuba > Quintero': 200,
+  'Santiago de Cuba > Santiago de Cuba > Marimon': 100,
+  'Santiago de Cuba > Santiago de Cuba > Los cangrejitos': 150,
+  'Santiago de Cuba > Santiago de Cuba > Trocha': 200,
+  'Santiago de Cuba > Santiago de Cuba > Versalles': 800,
+  'Santiago de Cuba > Santiago de Cuba > Reparto Portuondo': 600,
+  'Santiago de Cuba > Santiago de Cuba > 30 de Noviembre': 600,
+  'Santiago de Cuba > Santiago de Cuba > Rajayoga': 800,
+  'Santiago de Cuba > Santiago de Cuba > Antonio Maceo': 600,
+  'Santiago de Cuba > Santiago de Cuba > Los Pinos': 200,
+  'Santiago de Cuba > Santiago de Cuba > Distrito José Martí': 100,
+  'Santiago de Cuba > Santiago de Cuba > Cobre': 800,
+  'Santiago de Cuba > Santiago de Cuba > El Parque Céspedes': 200,
+  'Santiago de Cuba > Santiago de Cuba > Carretera del Morro': 300,
+};
 
 export function CheckoutModal({ isOpen, onClose, onCheckout, items, total }: CheckoutModalProps) {
   const adminContext = React.useContext(AdminContext);
+  const syncTimestamp = useAdminSync(); // Real-time sync
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     fullName: '',
     phone: '',
@@ -390,7 +437,7 @@ export function CheckoutModal({ isOpen, onClose, onCheckout, items, total }: Che
                         <option key={zone} value={zone}>
                           {zone === 'Por favor seleccionar su Barrio/Zona' 
                             ? zone 
-                            : `${zone.split(' > ')[2]} ${cost > 0 ? `- $${cost.toLocaleString()} CUP` : ''}`
+                            : `${zone.split(' > ')[2] || zone} ${cost > 0 ? `- $${cost.toLocaleString()} CUP` : ''}`
                           }
                         </option>
                       ))}
@@ -425,7 +472,7 @@ export function CheckoutModal({ isOpen, onClose, onCheckout, items, total }: Che
                           </div>
                         </div>
                         <div className="text-xs text-green-600 ml-11">
-                          ✅ Zona: {deliveryZone.split(' > ')[2]}
+                          ✅ Zona: {deliveryZone.split(' > ')[2] || deliveryZone}
                         </div>
                       </div>
                     )}

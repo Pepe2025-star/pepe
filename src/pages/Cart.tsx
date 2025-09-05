@@ -13,9 +13,6 @@ export function Cart() {
   const adminContext = React.useContext(AdminContext);
   const [showCheckoutModal, setShowCheckoutModal] = React.useState(false);
 
-  // Get current transfer fee percentage with real-time updates
-  const transferFeePercentage = adminContext?.state?.prices?.transferFeePercentage || 10;
-
   const handleCheckout = (orderData: OrderData) => {
     // Calculate totals
     const totalsByPaymentType = calculateTotalByPaymentType();
@@ -180,7 +177,7 @@ export function Cart() {
                             }`}
                           >
                             <CreditCard className="h-3 w-3 inline mr-1" />
-                            Transferencia (+{transferFeePercentage}%)
+                            Transferencia (+{adminContext?.state?.prices?.transferFeePercentage || 10}%)
                           </button>
                         </div>
                       </div>
@@ -236,7 +233,7 @@ export function Cart() {
                         </div>
                         {item.paymentType === 'transfer' && (
                           <div className="text-xs text-orange-600 mt-1">
-                            +{transferFeePercentage}% incluido
+                            +10% incluido
                           </div>
                         )}
                       </div>
@@ -319,7 +316,7 @@ export function Cart() {
                       ${totalsByPaymentType.transfer.toLocaleString()} CUP
                     </div>
                     <div className="text-sm text-orange-600">
-                      {state.items.filter(item => item.paymentType === 'transfer').length} elementos (+{transferFeePercentage}%)
+                      {state.items.filter(item => item.paymentType === 'transfer').length} elementos (+10%)
                     </div>
                   </div>
                 </div>
