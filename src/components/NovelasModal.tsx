@@ -128,44 +128,6 @@ export function NovelasModal({ isOpen, onClose, onFinalizePedido }: NovelasModal
     }
   }, [adminNovels]);
 
-  // Filter novels function
-  const getFilteredNovelas = () => {
-    let filtered = novelasWithPayment.filter(novela => {
-      const matchesSearch = improvedSearchFilter(novela);
-      const matchesGenre = selectedGenre === '' || novela.genero === selectedGenre;
-      const matchesYear = selectedYear === '' || novela.año.toString() === selectedYear;
-      const matchesCountry = selectedCountry === '' || novela.pais === selectedCountry;
-      const matchesStatus = selectedStatus === '' || novela.estado === selectedStatus;
-
-      return matchesSearch && matchesGenre && matchesYear && matchesCountry && matchesStatus;
-    });
-
-    filtered.sort((a, b) => {
-      let comparison = 0;
-      
-      switch (sortBy) {
-        case 'titulo':
-          comparison = a.titulo.localeCompare(b.titulo);
-          break;
-        case 'año':
-          comparison = a.año - b.año;
-          break;
-        case 'capitulos':
-          comparison = a.capitulos - b.capitulos;
-          break;
-        case 'pais':
-          comparison = a.pais.localeCompare(b.pais);
-          break;
-      }
-      
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
-
-    return filtered;
-  };
-
-  const filteredNovelas = getFilteredNovelas();
-
   const normalizeText = (text: string) => {
     return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
@@ -180,6 +142,44 @@ export function NovelasModal({ isOpen, onClose, onFinalizePedido }: NovelasModal
 
     return words.every(word => titleLower.includes(word));
   };
+
+  // Filter novels function
+  const getFilteredNovelas = () => {
+    let filtered = novelasWithPayment.filter(novela => {
+      const matchesSearch = improvedSearchFilter(novela);
+      const matchesGenre = selectedGenre === '' || novela.genero === selectedGenre;
+      const matchesYear = selectedYear === '' || novela.año.toString() === selectedYear;
+      const matchesCountry = selectedCountry === '' || novela.pais === selectedCountry;
+      const matchesStatus = selectedStatus === '' || novela.estado === selectedStatus;
+
+      return matchesSearch && matchesGenre && matchesYear && matchesCountry && matchesStatus;
+    });
+
+    filtered.sort((a, b) => {
+      let comparison = 0;
+
+      switch (sortBy) {
+        case 'titulo':
+          comparison = a.titulo.localeCompare(b.titulo);
+          break;
+        case 'año':
+          comparison = a.año - b.año;
+          break;
+        case 'capitulos':
+          comparison = a.capitulos - b.capitulos;
+          break;
+        case 'pais':
+          comparison = a.pais.localeCompare(b.pais);
+          break;
+      }
+
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
+    return filtered;
+  };
+
+  const filteredNovelas = getFilteredNovelas();
 
   const handleNovelToggle = (novelaId: number) => {
     setSelectedNovelas(prev => {
