@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Calendar, Plus, Check, Eye, BookOpen, Globe, Monitor, CheckCircle } from 'lucide-react';
-import { OptimizedImage } from './OptimizedImage';
 import { useCart } from '../context/CartContext';
 import { Toast } from './Toast';
 import type { NovelCartItem } from '../types/movie';
@@ -140,13 +139,16 @@ export function NovelCard({ novel }: NovelCardProps) {
         </div>
 
         <div className="relative overflow-hidden">
-          <OptimizedImage
+          <img
             src={getNovelImage(novel)}
             alt={novel.titulo}
-            className={`w-full h-80 transition-all duration-200 ${
+            className={`w-full h-80 object-cover transition-all duration-200 ${
               isHovered ? 'scale-102' : ''
             }`}
-            lazy={true}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop';
+            }}
           />
           
           {/* Overlay on hover */}
