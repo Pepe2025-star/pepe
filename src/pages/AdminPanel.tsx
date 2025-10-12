@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Settings, DollarSign, MapPin, BookOpen, Bell, Download, Upload, Trash2, CreditCard as Edit, Plus, Save, X, Eye, EyeOff, LogOut, Home, Monitor, Smartphone, Globe, Calendar, Image, Camera, Check, AlertCircle, Info, RefreshCw, Database, FolderSync as Sync, Activity, TrendingUp, Users, ShoppingCart, Clock, Zap, Heart, Star, PackageOpen } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
-import { generateCompleteSourceCode } from '../utils/sourceCodeGenerator';
+import { generateFullBackup } from '../utils/fullBackupGenerator';
 
 interface NovelForm {
   titulo: string;
@@ -225,18 +225,46 @@ export function AdminPanel() {
   };
 
   const handleExport = () => {
-    const configJson = exportSystemConfig();
-    if (!configJson) return;
-    
-    const blob = new Blob([configJson], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `tv-a-la-carta-config-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    try {
+      const configJson = exportSystemConfig();
+      if (!configJson) {
+        addNotification({
+          type: 'error',
+          title: 'Error de exportación',
+          message: 'No se pudo generar la configuración para exportar',
+          section: 'Sistema',
+          action: 'export_error'
+        });
+        return;
+      }
+
+      const blob = new Blob([configJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `tv-a-la-carta-config-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      addNotification({
+        type: 'success',
+        title: 'Exportación exitosa',
+        message: 'Configuración exportada correctamente',
+        section: 'Sistema',
+        action: 'export_success'
+      });
+    } catch (error) {
+      console.error('Error al exportar configuración:', error);
+      addNotification({
+        type: 'error',
+        title: 'Error de exportación',
+        message: 'Error al exportar la configuración del sistema',
+        section: 'Sistema',
+        action: 'export_error'
+      });
+    }
   };
 
   const handleImport = () => {
@@ -263,7 +291,7 @@ export function AdminPanel() {
       addNotification({
         type: 'info',
         title: 'Backup en progreso',
-        message: 'Generando backup completo del sistema...',
+        message: 'Generando backup completo con todos los archivos del sistema...',
         section: 'Sistema',
         action: 'backup_start'
       });
@@ -273,16 +301,17 @@ export function AdminPanel() {
         prices: state.prices,
         deliveryZones: state.deliveryZones,
         novels: state.novels,
-        settings: state.systemConfig,
+        settings: state.systemConfig.settings,
         syncStatus: state.syncStatus,
         exportDate: new Date().toISOString(),
       };
 
-      await generateCompleteSourceCode(fullSystemConfig);
+      await generateFullBackup(fullSystemConfig);
+
       addNotification({
         type: 'success',
         title: 'Backup completado',
-        message: 'Backup completo generado exitosamente',
+        message: 'Backup completo generado exitosamente con toda la configuración embebida',
         section: 'Sistema',
         action: 'backup_success'
       });
@@ -291,7 +320,7 @@ export function AdminPanel() {
       addNotification({
         type: 'error',
         title: 'Error en backup',
-        message: 'Error al generar el backup completo',
+        message: `Error al generar el backup completo: ${error}`,
         section: 'Sistema',
         action: 'backup_error'
       });
