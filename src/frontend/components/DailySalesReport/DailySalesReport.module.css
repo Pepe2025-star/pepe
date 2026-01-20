@@ -1,0 +1,254 @@
+.reportHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-2);
+}
+
+.dateInfo h4 {
+  color: var(--primary-600);
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.reportDate {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--grey-700);
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+.lastUpdate {
+  font-size: 0.9rem;
+  color: var(--grey-500);
+  margin: 0;
+}
+
+.statsOverview {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: var(--primary-50);
+  border-radius: var(--borderRadius);
+  border: 2px solid var(--primary-200);
+  min-width: 120px;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-700);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: var(--grey-600);
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  justify-items: center;
+}
+
+.productWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.rankBadge {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 10;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: var(--grey-800);
+  padding: 0.5rem;
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.rankNumber {
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.rankLabel {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.salesInfo {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
+  background: var(--white);
+  border: 2px solid var(--primary-500);
+  border-radius: var(--borderRadius);
+  padding: 0.75rem;
+  box-shadow: var(--shadow-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.salesCount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.salesNumber {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-700);
+  line-height: 1;
+}
+
+.salesLabel {
+  font-size: 0.7rem;
+  color: var(--grey-600);
+  text-align: center;
+}
+
+.growthIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.growthIndicator.positive {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.growthIndicator.negative {
+  background: var(--red-light);
+  color: var(--red-dark);
+}
+
+.growthIcon {
+  font-size: 0.8rem;
+}
+
+.growthText {
+  font-size: 0.7rem;
+}
+
+.reportFooter {
+  margin-top: 3rem;
+  text-align: center;
+  padding: 1rem;
+  background: var(--grey-50);
+  border-radius: var(--borderRadius);
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: var(--grey-500);
+  margin: 0.25rem 0;
+}
+
+@media screen and (min-width: 768px) {
+  .reportHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .statsOverview {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .statCard {
+    min-width: 140px;
+    padding: 1.5rem;
+  }
+
+  .statNumber {
+    font-size: 2.5rem;
+  }
+
+  .statLabel {
+    font-size: 1rem;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+  }
+
+  .productWrapper {
+    max-width: none;
+  }
+
+  .rankBadge {
+    min-width: 80px;
+    padding: 0.75rem;
+  }
+
+  .rankNumber {
+    font-size: 1.5rem;
+  }
+
+  .rankLabel {
+    font-size: 0.7rem;
+  }
+
+  .salesInfo {
+    padding: 1rem;
+  }
+
+  .salesNumber {
+    font-size: 1.8rem;
+  }
+
+  .salesLabel {
+    font-size: 0.8rem;
+  }
+
+  .growthIndicator {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .growthText {
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .productsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
