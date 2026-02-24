@@ -1,4 +1,4 @@
-import { Categories, FeaturedProducts, Hero, DailySalesReport } from '../components';
+import { Categories, FeaturedProducts, Hero } from '../components';
 import { useAllProductsContext } from '../contexts/ProductsContextProvider';
 
 const Home = () => {
@@ -11,7 +11,6 @@ const Home = () => {
   return (
     <main>
       <Hero />
-      <DailySalesReport />
       <Categories />
       <FeaturedProducts />
     </main>
